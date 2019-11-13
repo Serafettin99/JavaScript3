@@ -85,7 +85,7 @@ async function main(url) {
   const select = createAndAppend('select', header);
   try {
     const repositories = await fetchJSON(url);
-    const ul = createAndAppend('ul', root);
+    const repoUlELement = createAndAppend('ul', root);
     repositories
       .sort((currentRepo, nextRepo) =>
         currentRepo.name.localeCompare(nextRepo.name),
@@ -97,17 +97,23 @@ async function main(url) {
         });
       });
 
-    const ul2 = createAndAppend('ul', root);
+    const contributorsUlElement = createAndAppend('ul', root);
     select.addEventListener('change', event => {
       // Made it empty in order not to mass all the repositories and contributors section one after another.
-      ul.textContent = '';
-      ul2.textContent = '';
-      renderRepoDetails(repositories[select.value], ul); //display the repository while the selected repository is changed
-      renderContributors(repositories[select.value].contributors_url, ul2); //display the contributors of the selected repository
+      repoUlELement.textContent = '';
+      contributorsUlElement.textContent = '';
+      renderRepoDetails(repositories[select.value], repoUlELement); //display the repository while the selected repository is changed
+      renderContributors(
+        repositories[select.value].contributors_url,
+        contributorsUlElement,
+      ); //display the contributors of the selected repository
     });
     //Render the first selected repository and its contributors section
-    renderRepoDetails(repositories[select.value], ul);
-    renderContributors(repositories[select.value].contributors_url, ul2);
+    renderRepoDetails(repositories[select.value], repoUlELement);
+    renderContributors(
+      repositories[select.value].contributors_url,
+      contributorsUlElement,
+    );
   } catch (err) {
     createAndAppend('div', root, {
       text: err.message,
