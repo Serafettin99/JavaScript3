@@ -2,13 +2,8 @@
 // Fetch the Api
 async function fetchJSON(url) {
   try {
-    const response = await fetch(url);
-    if (response.ok) {
-      // `response.ok` contains a boolean stating whether the response was successful (status in the range 200-299) or not.
-      return response.json();
-    } else {
-      throw new Error('An error occurred!');
-    }
+    const response = await axios.get(url);
+    return response.data;
   } catch (err) {
     createAndAppend('div', root, {
       text: err.message,
