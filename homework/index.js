@@ -82,10 +82,22 @@ async function main(url) {
   const header = createAndAppend('header', root, {
     text: 'HYF Repositories',
   });
+  const p = createAndAppend('p', header, {
+    text: 'HYF Repositories',
+  });
   const select = createAndAppend('select', header);
+  const main = createAndAppend('main', root, {
+    class: 'main-container',
+  });
+  const repoSection = createAndAppend('section', main, {
+    class: 'repo-container',
+  });
+  const contributorsSection = createAndAppend('section', main, {
+    class: 'contributors-container',
+  });
   try {
     const repositories = await fetchJSON(url);
-    const repoUlELement = createAndAppend('ul', root);
+    const repoUlELement = createAndAppend('ul', repoSection);
     repositories
       .sort((currentRepo, nextRepo) =>
         currentRepo.name.localeCompare(nextRepo.name),
@@ -97,7 +109,7 @@ async function main(url) {
         });
       });
 
-    const contributorsUlElement = createAndAppend('ul', root);
+    const contributorsUlElement = createAndAppend('ul', contributorsSection);
     select.addEventListener('change', event => {
       // Made it empty in order not to mass all the repositories and contributors section one after another.
       repoUlELement.textContent = '';

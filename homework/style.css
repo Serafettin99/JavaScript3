@@ -76,13 +76,16 @@ th {
 .contributors-container div {
   display: flex;
   justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  width: 50%;
 }
 
-.contributors-container div div {
+.contributors-container li {
   display: flex;
-  justify-content: flex-start;
-  width: width: 50%
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 span {
@@ -127,3 +130,5 @@ a {
     margin-right: 30px;
   }
 }
+
+y
