@@ -26,8 +26,8 @@ function createAndAppend(name, parent, options = {}) {
 }
 
 //Render one of the repository in HTML
-function renderRepoDetails(repo, ul) {
-  const li = createAndAppend('li', ul);
+function renderRepoDetails(repo, repoUlElement) {
+  const li = createAndAppend('li', repoUlElement);
   const table = createAndAppend('table', li);
   const headers = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
   const keys = ['name', 'description', 'forks', 'updated_at'];
@@ -85,17 +85,17 @@ function main(url) {
   const main = createAndAppend('main', root, {
     class: 'main-container',
   });
-  const section1 = createAndAppend('section', main, {
+  const repoSection = createAndAppend('section', main, {
     class: 'repo-container',
   });
-  const section2 = createAndAppend('section', main, {
+  const contributorsSection = createAndAppend('section', main, {
     class: 'contributors-container',
   });
   fetchJSON(url)
     .then(
       // display the first ul, header, select and options elements in ascending order.
       repositories => {
-        const ul = createAndAppend('ul', section1);
+        const repoUlElement = createAndAppend('ul', repoSection);
         repositories
           .sort((currentRepo, nextRepo) =>
             currentRepo.name.localeCompare(nextRepo.name),
@@ -107,17 +107,26 @@ function main(url) {
             });
           });
 
-        const ul2 = createAndAppend('ul', section2);
+        const contributorsUlElementwe = createAndAppend(
+          'ul',
+          contributorsSection,
+        );
         select.addEventListener('change', () => {
           // Made it empty in order not to mass all the repositories and contributors section one after another.
-          ul.textContent = '';
-          ul2.textContent = '';
-          renderRepoDetails(repositories[select.value], ul); //display the repository while the selected repository is changed
-          renderContributors(repositories[select.value].contributors_url, ul2); //display the contributors of the selected repository
+          repoUlElement.textContent = '';
+          contributorsUlElement.textContent = '';
+          renderRepoDetails(repositories[select.value], repoUlElement); //display the repository while the selected repository is changed
+          renderContributors(
+            repositories[select.value].contributors_url,
+            contributorsUlElement,
+          ); //display the contributors of the selected repository
         });
         //Render the first selected repository and its contributors section
-        renderRepoDetails(repositories[select.value], ul);
-        renderContributors(repositories[select.value].contributors_url, ul2);
+        renderRepoDetails(repositories[select.value], repoUlElement);
+        renderContributors(
+          repositories[select.value].contributors_url,
+          contributorsUlElement,
+        );
       },
     )
     .catch(err => {
