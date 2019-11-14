@@ -19,8 +19,22 @@
      * @param {Object} repo A repository object.
      */
     render(repo) {
-      // TODO: replace this comment and the console.log with your own code
-      console.log('RepoView', repo);
+      this.container.innerHTML = '';
+      const li = createAndAppend('li', this.container);
+      const table = createAndAppend('table', li);
+      const headers = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
+      const keys = ['name', 'description', 'forks', 'updated_at'];
+
+      keys.forEach((key, index) => {
+        let tr = createAndAppend('tr', table);
+        createAndAppend('th', tr, { text: headers[index] });
+        if (index === 0) {
+          let td = createAndAppend('td', tr);
+          createAndAppend('a', td, { href: repo.html_url, text: repo['name'] });
+        } else {
+          createAndAppend('td', tr, { text: repo[key] });
+        }
+      });
     }
   }
 
