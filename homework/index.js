@@ -74,9 +74,7 @@ async function renderContributors(url, elem) {
 
 async function main(url) {
   const root = document.getElementById('root');
-  const header = createAndAppend('header', root, {
-    text: 'HYF Repositories',
-  });
+  const header = createAndAppend('header', root);
   const p = createAndAppend('p', header, {
     text: 'HYF Repositories',
   });
